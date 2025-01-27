@@ -13,11 +13,10 @@ const auth = new google.auth.GoogleAuth({
 });
 
 const sheets = google.sheets({ version: "v4", auth });
-const drive = google.drive({ version: "v3", auth });
 
 // The existing spreadsheet ID and sheet name
-const SPREADSHEET_ID = "1c1RJzlXQrOBinYlDaKC-KJ1HhRPflefomNfJDXzb8dY"; // Replace with your existing spreadsheet ID
-const SHEET_NAME = "Competitions"; // Replace with the exact name of your sheet
+let SPREADSHEET_ID: string | null = "your-existing-spreadsheet-id"; // Set this to your existing spreadsheet ID
+const SHEET_NAME = "Competitions";
 const SPREADSHEET_URL_TEMPLATE = "https://docs.google.com/spreadsheets/d/{id}";
 
 // Ensure that the private key is set, and throw an error if not
@@ -25,30 +24,9 @@ if (!process.env.GOOGLE_SHEETS_PRIVATE_KEY || !process.env.GOOGLE_SHEETS_PRIVATE
   throw new Error("Private key for Google Sheets API is not set in environment variables.");
 }
 
-// Share the existing spreadsheet with an email (if needed)
-async function shareSpreadsheetWithEmail(email: string) {
-  try {
-    if (!SPREADSHEET_ID) throw new Error("Spreadsheet ID is not set.");
-
-    await drive.permissions.create({
-      fileId: SPREADSHEET_ID,
-      requestBody: {
-        role: "writer", // Grants edit access
-        type: "user",
-        emailAddress: email,
-      },
-    });
-
-    console.log(`Spreadsheet shared with ${email}`);
-  } catch (error) {
-    console.error("Error sharing spreadsheet:", error);
-    throw error;
-  }
-}
-
 export async function appendToSheet(data: { name: string; email: string; message: string }) {
   try {
-    // If the spreadsheet is not set, throw an error
+    // If the spreadsheet is not set, you can either throw an error or return early.
     if (!SPREADSHEET_ID) {
       throw new Error("Spreadsheet ID is not set. Please provide a valid spreadsheet ID.");
     }
