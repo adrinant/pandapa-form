@@ -11,8 +11,9 @@ export async function contactFormAction(_prevState: unknown, formData: FormData)
     const data = contactFormSchema.parse(Object.fromEntries(formData))
 
     // Store the form submission in Google Sheets
-    const result = await appendToSheet(data)
-    console.log("Form submission successful")
+    const result = await appendToSheet(data);
+    console.log("Form submission successful:", result); // Log the result or use it as needed
+
 
     return {
       defaultValues: {
