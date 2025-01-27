@@ -16,8 +16,8 @@ const sheets = google.sheets({ version: "v4", auth });
 const drive = google.drive({ version: "v3", auth });
 
 // The existing spreadsheet ID and sheet name
-let SPREADSHEET_ID: string | null = "1c1RJzlXQrOBinYlDaKC-KJ1HhRPflefomNfJDXzb8dY"; // Set this to your existing spreadsheet ID
-const SHEET_NAME = "Form Responses";
+const SPREADSHEET_ID = "1c1RJzlXQrOBinYlDaKC-KJ1HhRPflefomNfJDXzb8dY"; // Replace with your existing spreadsheet ID
+const SHEET_NAME = "Competitions"; // Replace with the exact name of your sheet
 const SPREADSHEET_URL_TEMPLATE = "https://docs.google.com/spreadsheets/d/{id}";
 
 // Ensure that the private key is set, and throw an error if not
@@ -48,7 +48,7 @@ async function shareSpreadsheetWithEmail(email: string) {
 
 export async function appendToSheet(data: { name: string; email: string; message: string }) {
   try {
-    // If the spreadsheet is not set, you can either throw an error or return early.
+    // If the spreadsheet is not set, throw an error
     if (!SPREADSHEET_ID) {
       throw new Error("Spreadsheet ID is not set. Please provide a valid spreadsheet ID.");
     }
