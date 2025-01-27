@@ -15,8 +15,8 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: "v4", auth });
 const drive = google.drive({ version: "v3", auth });
 
-// We’ll store the spreadsheet ID in memory - in production you'd want to store this in a database
-let SPREADSHEET_ID: string | null = null;
+// The existing spreadsheet ID and sheet name
+let SPREADSHEET_ID: string | null = "1c1RJzlXQrOBinYlDaKC-KJ1HhRPflefomNfJDXzb8dY"; // Set this to your existing spreadsheet ID
 const SHEET_NAME = "Form Responses";
 const SPREADSHEET_URL_TEMPLATE = "https://docs.google.com/spreadsheets/d/{id}";
 
@@ -25,38 +25,7 @@ if (!process.env.GOOGLE_SHEETS_PRIVATE_KEY || !process.env.GOOGLE_SHEETS_PRIVATE
   throw new Error("Private key for Google Sheets API is not set in environment variables.");
 }
 
-async function createSpreadsheet() {
-  try {
-    // Create a new spreadsheet
-    const response = await sheets.spreadsheets.create({
-      requestBody: {
-        properties: {
-          title: "Pandapa Form Responses",
-        },
-        sheets: [
-          {
-            properties: {
-              title: SHEET_NAME,
-            },
-          },
-        ],
-      },
-    });
-
-    // Store the spreadsheet ID
-    SPREADSHEET_ID = response.data.spreadsheetId ?? null;
-    if (!SPREADSHEET_ID) {
-      throw new Error("Failed to retrieve spreadsheet ID after creation.");
-    }
-    console.log("Created new spreadsheet with ID:", SPREADSHEET_ID);
-
-    return SPREADSHEET_ID;
-  } catch (error) {
-    console.error("Error creating spreadsheet:", error);
-    throw error;
-  }
-}
-
+// Share the existing spreadsheet with an email (if needed)
 async function shareSpreadsheetWithEmail(email: string) {
   try {
     if (!SPREADSHEET_ID) throw new Error("Spreadsheet ID is not set.");
@@ -79,11 +48,9 @@ async function shareSpreadsheetWithEmail(email: string) {
 
 export async function appendToSheet(data: { name: string; email: string; message: string }) {
   try {
-    // Create spreadsheet if it doesn't exist
+    // If the spreadsheet is not set, you can either throw an error or return early.
     if (!SPREADSHEET_ID) {
-      SPREADSHEET_ID = await createSpreadsheet();
-      // Share with a default email (this can be parameterized)
-      await shareSpreadsheetWithEmail("adrinanttt@gmail.com"); // Replace with the desired email
+      throw new Error("Spreadsheet ID is not set. Please provide a valid spreadsheet ID.");
     }
 
     // Format the data as a row
@@ -92,7 +59,7 @@ export async function appendToSheet(data: { name: string; email: string; message
     // Append the row to the sheet
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${SHEET_NAME}!A:D`,
+      range: `${SHEET_NAME}!A:D`, // Assumes the sheet already exists with columns A-D
       valueInputOption: "RAW",
       requestBody: {
         values,
