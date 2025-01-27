@@ -15,7 +15,7 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ version: "v4", auth });
 
 // The existing spreadsheet ID and sheet name
-const SPREADSHEET_ID: string | null = "your-existing-spreadsheet-id"; // Set this to your existing spreadsheet ID
+const SPREADSHEET_ID: string | null = "1c1RJzlXQrOBinYlDaKC-KJ1HhRPflefomNfJDXzb8dY"; // Set this to your existing spreadsheet ID
 const SHEET_NAME = "Competitions";
 const SPREADSHEET_URL_TEMPLATE = "https://docs.google.com/spreadsheets/d/{id}";
 
