@@ -4,7 +4,7 @@ import { google } from "googleapis";
 const auth = new google.auth.GoogleAuth({
   credentials: {
     private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, "\n") ?? "",
-    client_email: "pandapa-form@pandapa-form.iam.gserviceaccount.com",
+    client_email: "competition-form@pandapa-form.iam.gserviceaccount.com",
   },
   scopes: [
     "https://www.googleapis.com/auth/spreadsheets",
