@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Set the font family for the body */
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Define CSS variables and dark mode in the :root and .dark classes */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -34,6 +36,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -62,11 +65,15 @@ body {
   }
 }
 
+/* Add global styles and ensure custom Tailwind utilities apply correctly */
 @layer base {
   * {
+    /* Apply a border style using the custom variable */
     @apply border-border;
   }
+
   body {
+    /* Apply background and text colors */
     @apply bg-background text-foreground;
   }
 }

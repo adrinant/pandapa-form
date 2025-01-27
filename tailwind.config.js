@@ -1,11 +1,9 @@
-import type { Config } from "tailwindcss";
-
-export default {
-  darkMode: ["class"],
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -51,7 +49,7 @@ export default {
           '5': 'hsl(var(--chart-5))',
         },
       },
-      backgroundColor: {  // Add this line to extend the background utilities
+      backgroundColor: {  // Add this line to extend background utilities
         background: 'hsl(var(--background))',  // Create bg-background utility
       },
       borderRadius: {
@@ -61,5 +59,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [],
+};
